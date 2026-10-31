@@ -19,7 +19,7 @@ public class FundType {
 
     private String name;
 
-    @ManyToMany(mappedBy = "fundtypes")
+    @ManyToMany(mappedBy = "fundTypes")
     @JsonIgnore
     private List<Treasurer> treasurers;
 }
