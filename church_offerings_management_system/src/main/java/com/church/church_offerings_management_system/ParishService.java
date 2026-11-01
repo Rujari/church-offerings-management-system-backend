@@ -1,9 +1,10 @@
 package com.church.church_offerings_management_system;
 
-import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import org.springframework.stereotype.Service;
 
 @Service
 public class ParishService {
@@ -49,4 +50,8 @@ public class ParishService {
         parishRepository.deleteById(id);
         return "Parish deleted successfully";
     }
+        public List<Parish> getFreeParishes() {
+        return parishRepository.findUnoccupiedParishes();
+    }
+
 }

@@ -1,9 +1,10 @@
 package com.church.church_offerings_management_system;
 
-import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import org.springframework.stereotype.Service;
 
 @Service
 public class FundTypeService {
@@ -48,4 +49,8 @@ public class FundTypeService {
         fundTypeRepository.deleteById(id);
         return "Fund type deleted successfully";
     }
+        public List<FundType> getUnusedFundTypes() {
+        return fundTypeRepository.findUnusedFundTypes();
+    }
+
 }

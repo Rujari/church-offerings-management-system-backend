@@ -61,4 +61,9 @@ public class ParishController {
             return new ResponseEntity<>(result, HttpStatus.OK);
         }
     }
+        @GetMapping("/free")
+    public ResponseEntity<List<Parish>> getFreeParishes() {
+        return new ResponseEntity<>(parishService.getFreeParishes(), HttpStatus.OK);
+    }
+
 }

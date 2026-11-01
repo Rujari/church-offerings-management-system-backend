@@ -1,9 +1,10 @@
 package com.church.church_offerings_management_system;
 
-import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import org.springframework.stereotype.Service;
 
 @Service
 public class TreasurerService {
@@ -57,4 +58,8 @@ public class TreasurerService {
         treasurerRepository.deleteById(id);
         return "Treasurer deleted successfully";
     }
+        public List<Treasurer> getTreasurersByFundType(String name) {
+        return treasurerRepository.findTreasurersByFundTypeNameIgnoreCase(name);
+    }
+
 }
