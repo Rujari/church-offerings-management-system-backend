@@ -1,0 +1,493 @@
+{
+	"info": {
+		"_postman_id": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d",
+		"name": "Church Offerings Management System - Midterm Collection",
+		"schema": "https://getpostman.com"
+	},
+	"item": [
+		{
+			"name": "A2 - Save Parish",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"parishNumber\": 5,\n    \"name\": \"Nyashishi Parish\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/parishes/save",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"parishes",
+						"save"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "B1 - Members By Last Name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/members/by-last-name?lastName=Uwamahoro",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"members",
+						"by-last-name"
+					],
+					"query": [
+						{
+							"key": "lastName",
+							"value": "Uwamahoro"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "B2 - Pledges By Status",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/pledges/by-status?status=PLEDGED",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"pledges",
+						"by-status"
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "PLEDGED"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "B3 - Pledges Between Dates",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/pledges/between?start=2026-10-01&end=2026-10-31",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"pledges",
+						"between"
+					],
+					"query": [
+						{
+							"key": "start",
+							"value": "2026-10-01"
+						},
+						{
+							"key": "end",
+							"value": "2026-10-31"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "C1 - Treasurers By Fund Type",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/treasurers/by-fund-type?name=Tithe",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"treasurers",
+						"by-fund-type"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Tithe"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "C2 - Unoccupied Parishes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/parishes/free",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"parishes",
+						"free"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "C3 - Unused Fund Types",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/fund-types/unused",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"fund-types",
+						"unused"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "C4 - Members Of Treasurer",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/members/of-treasurer/85a4b6d0-2c34-4b98-9a77-c53e5264ecc8",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"members",
+						"of-treasurer",
+						"85a4b6d0-2c34-4b98-9a77-c53e5264ecc8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "C4-fail - Missing Treasurer",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/members/of-treasurer/00000000-0000-0000-0000-000000000000",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"members",
+						"of-treasurer",
+						"00000000-0000-0000-0000-000000000000"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "D1 - Save Pledge Valid",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"pledgeDate\": \"2026-11-10\",\n    \"amount\": 35000,\n    \"purpose\": \"Altar flowers\",\n    \"member\": {\"id\": \"fbfad9aa-fad5-440f-988b-39ad4a7ac3a6\"},\n    \"treasurer\": {\"id\": \"85a4b6d0-2c34-4b98-9a77-c53e5264ecc8\"}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/pledges/save",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"pledges",
+						"save"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "D1-fail - Past Date Constraint",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"pledgeDate\": \"2020-01-01\",\n    \"amount\": 10000,\n    \"purpose\": \"Invalid\",\n    \"member\": {\"id\": \"fbfad9aa-fad5-440f-988b-39ad4a7ac3a6\"},\n    \"treasurer\": {\"id\": \"85a4b6d0-2c34-4b98-9a77-c53e5264ecc8\"}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/pledges/save",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"pledges",
+						"save"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "D2 - Patch Pledge Status",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/pledges/85a4b6d0-2c34-4b98-9a77-c53e5264ecc8/status?status=PARTIALLY_PAID",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"pledges",
+						"85a4b6d0-2c34-4b98-9a77-c53e5264ecc8",
+						"status"
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "PARTIALLY_PAID"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "D2-fail - Invalid Status State Flow",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/pledges/85a4b6d0-2c34-4b98-9a77-c53e5264ecc8/status?status=FULFILLED",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"pledges",
+						"85a4b6d0-2c34-4b98-9a77-c53e5264ecc8",
+						"status"
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "FULFILLED"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "D3 - Add Fund Type to Treasurer",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/treasurers/85a4b6d0-2c34-4b98-9a77-c53e5264ecc8/fund-types/1e3f0019-4c37-4019-bfb4-c8e5b2804aca",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"treasurers",
+						"85a4b6d0-2c34-4b98-9a77-c53e5264ecc8",
+						"fund-types",
+						"1e3f0019-4c37-4019-bfb4-c8e5b2804aca"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "D4 - Change Treasurer Parish",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/treasurers/85a4b6d0-2c34-4b98-9a77-c53e5264ecc8/parish?parishNumber=4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"treasurers",
+						"85a4b6d0-2c34-4b98-9a77-c53e5264ecc8",
+						"parish"
+					],
+					"query": [
+						{
+							"key": "parishNumber",
+							"value": "4"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "D4-fail - Parish Already Assigned Conflict",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/treasurers/85a4b6d0-2c34-4b98-9a77-c53e5264ecc8/parish?parishNumber=2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"treasurers",
+						"85a4b6d0-2c34-4b98-9a77-c53e5264ecc8",
+						"parish"
+					],
+					"query": [
+						{
+							"key": "parishNumber",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "E1 - Save Receipt",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"fundName\": \"Building Fund\",\n    \"remarks\": \"Midterm testing receipt validation\",\n    \"amount\": 75000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/receipts/save?pledgeId=b7d43f29-e147-4dc9-bfe7-c9296cacfac5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"receipts",
+						"save"
+					],
+					"query": [
+						{
+							"key": "pledgeId",
+							"value": "b7d43f29-e147-4dc9-bfe7-c9296cacfac5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "E1-fail - Receipt Pledge Unfulfilled Reject",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"fundName\": \"Tithe\",\n    \"remarks\": \"Should be rejected\",\n    \"amount\": 50000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/receipts/save?pledgeId=fbfad9aa-fad5-440f-988b-39ad4a7ac3a6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"receipts",
+						"save"
+          
+          
