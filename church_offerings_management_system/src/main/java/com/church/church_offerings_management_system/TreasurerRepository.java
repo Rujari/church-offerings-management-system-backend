@@ -10,5 +10,7 @@ public interface TreasurerRepository extends JpaRepository<Treasurer, UUID> {
 
     @Query("SELECT t FROM Treasurer t JOIN t.fundTypes f WHERE LOWER(f.name) = LOWER(:name)")
     List<Treasurer> findTreasurersByFundTypeNameIgnoreCase(@Param("name") String name);
-}
 
+  
+    boolean existsByParish(Parish parish);
+}

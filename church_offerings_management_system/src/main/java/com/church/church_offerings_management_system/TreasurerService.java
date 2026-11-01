@@ -11,11 +11,15 @@ public class TreasurerService {
 
     private final TreasurerRepository treasurerRepository;
     private final FundTypeRepository fundTypeRepository;
+    private final ParishRepository parishRepository;
 
-   
-    public TreasurerService(TreasurerRepository treasurerRepository, FundTypeRepository fundTypeRepository) {
+    // Unified human constructor handles all three repository layers transparently
+    public TreasurerService(TreasurerRepository treasurerRepository, 
+                            FundTypeRepository fundTypeRepository,
+                            ParishRepository parishRepository) {
         this.treasurerRepository = treasurerRepository;
         this.fundTypeRepository = fundTypeRepository;
+        this.parishRepository = parishRepository;
     }
 
     public String save(Treasurer incoming) {
@@ -90,5 +94,33 @@ public class TreasurerService {
         treasurerRepository.save(treasurer);
         
         return "Fund type added to the treasurer";
+    }
+
+    
+    @Transactional
+    public String changeParish(UUID treasurerId, int parishNumber) {
+        Optional<Treasurer> optionalTreasurer = treasurerRepository.findById(treasurerId);
+        if (optionalTreasurer.isEmpty()) {
+            return "TREASURER_NOT_FOUND";
+        }
+        
+        Optional<Parish> optionalParish = parishRepository.findByParishNumber(parishNumber);
+        if (optionalParish.isEmpty()) {
+            return "PARISH_NOT_FOUND";
+        }
+
+        Treasurer treasurer = optionalTreasurer.get();
+        Parish targetParish = optionalParish.get();
+        
+        boolean occupiesSameParish = treasurer.getParish() != null 
+                && treasurer.getParish().getId().equals(targetParish.getId());
+        
+        if (!occupiesSameParish && treasurerRepository.existsByParish(targetParish)) {
+            return "PARISH_TAKEN";
+        }
+
+        treasurer.setParish(targetParish);
+        treasurerRepository.save(treasurer);
+        return "Parish changed successfully";
     }
 }
