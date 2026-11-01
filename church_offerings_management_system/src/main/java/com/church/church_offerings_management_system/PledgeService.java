@@ -1,6 +1,7 @@
 package com.church.church_offerings_management_system;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -10,9 +11,11 @@ import java.util.UUID;
 public class PledgeService {
 
     private final PledgeRepository pledgeRepository;
+    private final ReceiptRepository receiptRepository;
 
-    public PledgeService(PledgeRepository pledgeRepository) {
+    public PledgeService(PledgeRepository pledgeRepository, ReceiptRepository receiptRepository) {
         this.pledgeRepository = pledgeRepository;
+        this.receiptRepository = receiptRepository;
     }
 
     public String save(Pledge incoming) {
@@ -35,17 +38,14 @@ public class PledgeService {
         return "Pledge saved successfully";
     }
 
-
     public List<Pledge> getAll() { 
         return pledgeRepository.findAll(); 
     }
 
-    
     public Optional<Pledge> getById(UUID id) { 
         return pledgeRepository.findById(id); 
     }
 
-    
     public String update(UUID id, Pledge incoming) {
         Optional<Pledge> existing = pledgeRepository.findById(id);
         if (existing.isEmpty()) {
@@ -69,26 +69,29 @@ public class PledgeService {
         return "Pledge updated successfully";
     }
 
-    
     public String delete(UUID id) {
-        if (!pledgeRepository.existsById(id)) {
+        Optional<Pledge> optionalPledge = pledgeRepository.findById(id);
+        if (optionalPledge.isEmpty()) {
             return "NOT_FOUND";
+        }
+        
+        Pledge pledge = optionalPledge.get();
+        
+        if (receiptRepository.existsByPledge(pledge)) {
+            return "HAS_RECEIPTS";
         }
         
         pledgeRepository.deleteById(id);
         return "Pledge deleted successfully";
     }
 
-  
     public List<Pledge> getPledgesByStatus(PledgeStatus status) {
         return pledgeRepository.findByStatusOrderByPledgeDateAsc(status);
     }
 
-    
     public List<Pledge> getPledgesInDateRange(LocalDate start, LocalDate end) {
         return pledgeRepository.findByPledgeDateBetweenOrderByPledgeDateAsc(start, end);
     }
-
 
     public String updateStatus(UUID id, PledgeStatus newStatus) {
         Optional<Pledge> optionalPledge = pledgeRepository.findById(id);
@@ -118,5 +121,23 @@ public class PledgeService {
         pledge.setStatus(newStatus);
         pledgeRepository.save(pledge);
         return "Pledge status updated successfully";
+    }
+
+   
+    public List<Object[]> getPledgeStatsByStatus() {
+        return pledgeRepository.countPledgesPerStatus();
+    }
+
+    
+    @Transactional
+    public String cancelDayForTreasurer(UUID treasurerId, LocalDate date) {
+        int updatedRowsCount = pledgeRepository.cancelPledgesForAbsentTreasurer(
+            treasurerId, 
+            date, 
+            PledgeStatus.WITHDRAWN, 
+            PledgeStatus.FULFILLED
+        );
+        
+        return updatedRowsCount + " pledges cancelled";
     }
 }
