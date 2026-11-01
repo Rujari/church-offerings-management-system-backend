@@ -1,18 +1,21 @@
 package com.church.church_offerings_management_system;
 
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
-import org.springframework.stereotype.Service;
 
 @Service
 public class TreasurerService {
 
     private final TreasurerRepository treasurerRepository;
+    private final FundTypeRepository fundTypeRepository;
 
-    public TreasurerService(TreasurerRepository treasurerRepository) {
+   
+    public TreasurerService(TreasurerRepository treasurerRepository, FundTypeRepository fundTypeRepository) {
         this.treasurerRepository = treasurerRepository;
+        this.fundTypeRepository = fundTypeRepository;
     }
 
     public String save(Treasurer incoming) {
@@ -58,8 +61,34 @@ public class TreasurerService {
         treasurerRepository.deleteById(id);
         return "Treasurer deleted successfully";
     }
-        public List<Treasurer> getTreasurersByFundType(String name) {
+
+    public List<Treasurer> getTreasurersByFundType(String name) {
         return treasurerRepository.findTreasurersByFundTypeNameIgnoreCase(name);
     }
 
+    @Transactional
+    public String addFundType(UUID treasurerId, UUID fundTypeId) {
+        Optional<Treasurer> optionalTreasurer = treasurerRepository.findById(treasurerId);
+        if (optionalTreasurer.isEmpty()) {
+            return "TREASURER_NOT_FOUND";
+        }
+        
+        Optional<FundType> optionalFundType = fundTypeRepository.findById(fundTypeId);
+        if (optionalFundType.isEmpty()) {
+            return "FUND_TYPE_NOT_FOUND";
+        }
+
+        Treasurer treasurer = optionalTreasurer.get();
+        
+        for (FundType type : treasurer.getFundTypes()) {
+            if (type.getId().equals(fundTypeId)) {
+                return "ALREADY_ASSIGNED";
+            }
+        }
+
+        treasurer.getFundTypes().add(optionalFundType.get());
+        treasurerRepository.save(treasurer);
+        
+        return "Fund type added to the treasurer";
+    }
 }

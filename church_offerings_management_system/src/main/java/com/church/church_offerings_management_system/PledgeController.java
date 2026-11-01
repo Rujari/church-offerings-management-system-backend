@@ -61,4 +61,20 @@ public class PledgeController {
             return new ResponseEntity<>(result, HttpStatus.OK);
         }
     }
+        @PatchMapping("/{id}/status")
+    public ResponseEntity<String> updateStatus(@PathVariable UUID id, @RequestParam PledgeStatus status) {
+        String result = pledgeService.updateStatus(id, status);
+        
+        if (result.equals("NOT_FOUND")) {
+            return new ResponseEntity<>("The pledge with that id does not exist", HttpStatus.NOT_FOUND);
+        } else if (result.startsWith("INVALID_TRANSITION")) {
+            String[] tokens = result.split(":");
+            String current = tokens[1];
+            String target = tokens[2];
+            return new ResponseEntity<>("Cannot change status from " + current + " to " + target, HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }
+    }
+
 }

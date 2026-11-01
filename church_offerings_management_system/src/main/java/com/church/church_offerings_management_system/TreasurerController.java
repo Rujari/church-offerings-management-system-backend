@@ -73,6 +73,21 @@ public class TreasurerController {
     public ResponseEntity<List<Treasurer>> getByFundType(@RequestParam String name) {
         return new ResponseEntity<>(treasurerService.getTreasurersByFundType(name), HttpStatus.OK);
     }
+    // --- Requirement D3: Put mapping link to update relationship association ---
+    @PutMapping("/{treasurerId}/fund-types/{fundTypeId}")
+    public ResponseEntity<String> addFundType(@PathVariable UUID treasurerId, @PathVariable UUID fundTypeId) {
+        String response = treasurerService.addFundType(treasurerId, fundTypeId);
+        
+        if (response.equals("TREASURER_NOT_FOUND")) {
+            return new ResponseEntity<>("The treasurer with that id does not exist", HttpStatus.NOT_FOUND);
+        } else if (response.equals("FUND_TYPE_NOT_FOUND")) {
+            return new ResponseEntity<>("That fund type does not exist", HttpStatus.NOT_FOUND);
+        } else if (response.equals("ALREADY_ASSIGNED")) {
+            return new ResponseEntity<>("The treasurer already has that fund type", HttpStatus.CONFLICT);
+        } else {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+    }
 
 }
 
